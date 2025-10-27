@@ -3,6 +3,8 @@ package com.guibg.URLShortener.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Builder
 @Getter
 @Setter
@@ -21,6 +23,9 @@ public class UrlsEntity {
     @Column(name = "original_url")
     private String originalUrl;
 
-    @Column(name = "short_url")
-    private String shortUrl;
+    @Column(name = "short_code")
+    private String shortCode;
+
+    @Column(name = "date_creation")
+    private LocalDateTime dateCreation;
 }

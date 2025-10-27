@@ -5,9 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UrlsRepository extends JpaRepository<UrlsEntity, Long> {
+public interface UrlRepository extends JpaRepository<UrlsEntity, Long> {
 
     UrlsEntity findByOriginalUrl(String originalUrl);
 
-    UrlsEntity findByShortUrl(String shortUrl);
+    UrlsEntity findByShortCode(String shortCode);
+
+    Boolean existsByShortCode(String shortCode);
 }
