@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "urls")
 @SequenceGenerator(name = "urls_seq", sequenceName = "urls_seq", allocationSize = 1)
-public class UrlsEntity {
+public class UrlEntity {
 
     @Id
     @Column(name = "id")

@@ -1,6 +1,6 @@
 package com.guibg.URLShortener.service;
 
-import com.guibg.URLShortener.domain.UrlsEntity;
+import com.guibg.URLShortener.domain.UrlEntity;
 import com.guibg.URLShortener.repository.UrlRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,16 +16,21 @@ public class UrlShortenerService {
 
     public String shortenUrl(String orignalUrl) {
         String shortCode = urlGeneratorService.generateShortCode();
-        UrlsEntity urlsEntity = UrlsEntity.builder()
+        UrlEntity urlEntity = UrlEntity.builder()
                 .originalUrl(orignalUrl)
                 .shortCode(shortCode)
                 .dateCreation(LocalDateTime.now())
                 .build();
-        urlRepository.save(urlsEntity);
+        urlRepository.save(urlEntity);
         return "short.com/" + shortCode;
     }
 
     public String findOriginalUrl(String shortCode){
         return urlRepository.findByShortCode(shortCode).getOriginalUrl();
+    }
+
+    public void deleteUrlByShortCode(String shortCode){
+        UrlEntity url = urlRepository.findByShortCode(shortCode);
+        urlRepository.delete(url);
     }
 }
