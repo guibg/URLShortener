@@ -34,6 +34,8 @@ public class UrlShortenerController {
             originalUrl = "https://" + originalUrl;
         }
 
+        urlShortenerService.incrementClickCount(shortCode);
+
         return ResponseEntity
                 .status(HttpStatus.FOUND)
                 .location(URI.create(originalUrl))

@@ -22,6 +22,7 @@ public class UrlShortenerService {
                 .originalUrl(orignalUrl)
                 .shortCode(shortCode)
                 .dateCreation(LocalDateTime.now())
+                .totalClicks(0)
                 .build();
         urlRepository.save(urlEntity);
         return "short.com/" + shortCode;
@@ -29,6 +30,12 @@ public class UrlShortenerService {
 
     public String findOriginalUrl(String shortCode){
         return urlRepository.findByShortCode(shortCode).getOriginalUrl();
+    }
+
+    public void incrementClickCount(String shortCode){
+        UrlEntity url = urlRepository.findByShortCode(shortCode);
+        url.setTotalClicks(url.getTotalClicks() + 1);
+        urlRepository.save(url);
     }
 
     public void deleteUrlByShortCode(String shortCode){

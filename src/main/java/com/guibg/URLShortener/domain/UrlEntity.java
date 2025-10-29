@@ -28,4 +28,7 @@ public class UrlEntity {
 
     @Column(name = "date_creation")
     private LocalDateTime dateCreation;
+
+    @Column(name = "total_clicks")
+    private Integer totalClicks;
 }
