@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class UrlShortenerService {
 
-    private final UrlRepository urlsRepository;
     private final UrlGeneratorService urlGeneratorService;
+    private final UrlRepository urlRepository;
 
     public String shortenUrl(String orignalUrl) {
         String shortCode = urlGeneratorService.generateShortCode();
@@ -21,7 +21,11 @@ public class UrlShortenerService {
                 .shortCode(shortCode)
                 .dateCreation(LocalDateTime.now())
                 .build();
-        urlsRepository.save(urlsEntity);
+        urlRepository.save(urlsEntity);
         return "short.com/" + shortCode;
+    }
+
+    public String findOriginalUrl(String shortCode){
+        return urlRepository.findByShortCode(shortCode).getOriginalUrl();
     }
 }

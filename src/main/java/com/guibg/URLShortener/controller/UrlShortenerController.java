@@ -2,13 +2,14 @@ package com.guibg.URLShortener.controller;
 
 import com.guibg.URLShortener.service.UrlShortenerService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 
 @RestController
-@RequestMapping("/url")
+@RequestMapping("/api")
 @AllArgsConstructor
 public class UrlShortenerController {
 
@@ -17,5 +18,23 @@ public class UrlShortenerController {
     @PostMapping("/shorten")
     public String shortenUrl(@RequestParam String longUrl) {
         return urlShortenerService.shortenUrl(longUrl);
+    }
+
+    @GetMapping("/{shortCode}")
+    public ResponseEntity<Void> redirectToOriginalUrl(@PathVariable String shortCode) {
+        String originalUrl = urlShortenerService.findOriginalUrl(shortCode);
+
+        if (originalUrl == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (!originalUrl.startsWith("http://") && !originalUrl.startsWith("https://")) {
+            originalUrl = "https://" + originalUrl;
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .location(URI.create(originalUrl))
+                .build();
     }
 }
