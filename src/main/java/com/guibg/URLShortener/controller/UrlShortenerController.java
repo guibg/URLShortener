@@ -1,5 +1,6 @@
 package com.guibg.URLShortener.controller;
 
+import com.guibg.URLShortener.dto.UrlDTO;
 import com.guibg.URLShortener.service.UrlShortenerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -42,5 +44,11 @@ public class UrlShortenerController {
     public ResponseEntity<Void> deleteUrlByShortCode(@PathVariable String shortCode) {
         urlShortenerService.deleteUrlByShortCode(shortCode);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/urls")
+    public ResponseEntity<List<UrlDTO>> listAllUrls() {
+        List<UrlDTO> urls = urlShortenerService.findAllUrl();
+        return ResponseEntity.ok(urls);
     }
 }

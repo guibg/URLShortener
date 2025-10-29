@@ -1,11 +1,13 @@
 package com.guibg.URLShortener.service;
 
 import com.guibg.URLShortener.domain.UrlEntity;
+import com.guibg.URLShortener.dto.UrlDTO;
 import com.guibg.URLShortener.repository.UrlRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -32,5 +34,15 @@ public class UrlShortenerService {
     public void deleteUrlByShortCode(String shortCode){
         UrlEntity url = urlRepository.findByShortCode(shortCode);
         urlRepository.delete(url);
+    }
+
+    public List<UrlDTO> findAllUrl(){
+        List<UrlEntity> entities = urlRepository.findAll();
+        return entities.stream().map(entity -> UrlDTO.builder()
+                .originalUrl(entity.getOriginalUrl())
+                .shortCode(entity.getShortCode())
+                .dateCreation(entity.getDateCreation())
+                .totalClicks(entity.getTotalClicks())
+                .build()).toList();
     }
 }
